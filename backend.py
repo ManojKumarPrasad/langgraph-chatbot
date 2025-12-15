@@ -36,9 +36,17 @@ load_dotenv()
 # -------------------
 llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 
+import os
+
+hf_token = os.getenv("HF_TOKEN")
+
 embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
+    model_name="sentence-transformers/all-MiniLM-L6-v2",
+    model_kwargs={"device": "cpu"},
+    encode_kwargs={"normalize_embeddings": True},
+    huggingfacehub_api_token=hf_token
 )
+
 
 # -------------------
 # 2. PDF retriever store (per thread)
