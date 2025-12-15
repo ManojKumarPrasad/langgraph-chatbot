@@ -15,7 +15,9 @@ from langchain_core.messages import BaseMessage, SystemMessage
 from langchain_core.tools import tool
 
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langgraph.checkpoint.sqlite import SqliteSaver
+# from langgraph.checkpoint.sqlite import SqliteSaver
+from langgraph.checkpoint.memory import MemorySaver
+
 from langgraph.graph import START, StateGraph
 from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode, tools_condition
@@ -215,7 +217,9 @@ tool_node = ToolNode(tools)
 # 6. Checkpointer
 # -------------------
 conn = sqlite3.connect(database="chatbot.db", check_same_thread=False)
-checkpointer = SqliteSaver(conn=conn)
+# checkpointer = SqliteSaver(conn=conn)
+checkpointer = MemorySaver()
+
 
 # -------------------
 # 7. Graph
